@@ -1,10 +1,8 @@
 import Navbar from "@/components/Navbar";
 import "./globals.css";
-import { Poppins } from "next/font/google";
 import { cn } from "@/lib/utils";
 import Providers from "@/components/Providers";
-
-const poppins = Poppins({ weight: "400", subsets: ["latin"] });
+import { Toaster } from "@/components/ui/toaster";
 
 export const metadata = {
   title: "Reddit clone",
@@ -18,12 +16,11 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body
-        className={cn(poppins.className, "bg-white text-zinc-900 antialiased")}
-      >
+      <body className="bg-gray-50 font-poppins text-zinc-900">
         <Providers>
           <Navbar />
-          <div className="pt-14">{children}</div>
+          <Toaster />
+          <div className="mx-auto max-w-7xl pt-14">{children}</div>
         </Providers>
       </body>
     </html>

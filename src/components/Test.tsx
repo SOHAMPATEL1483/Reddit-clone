@@ -28,7 +28,6 @@ export default function Test({}: TestProps) {
     },
   });
   useEffect(() => {
-    console.log(inView);
     if (inView && hasNextPage) fetchNextPage();
   }, [inView, fetchNextPage, hasNextPage]);
 
