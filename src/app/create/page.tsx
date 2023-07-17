@@ -15,7 +15,7 @@ interface CreateSubredditProps {}
 
 export default function CreateSubreddit({}: CreateSubredditProps) {
   const { back } = useRouter();
-  const { toast, dismiss } = useToast();
+  const { toast } = useToast();
   const { logintoast } = useCustomToast();
 
   const [input, setInput] = useState<string>("");
@@ -48,9 +48,9 @@ export default function CreateSubreddit({}: CreateSubredditProps) {
           });
         }
       }
-      toast({
-        title: "",
-        description: "",
+      return toast({
+        title: "couldn't create subreddit",
+        description: "please try again after some time",
       });
     },
     onSuccess: (data) => {},

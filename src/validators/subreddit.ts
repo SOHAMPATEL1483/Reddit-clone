@@ -7,3 +7,12 @@ export const SubredditCreationPayload = z.object({
 
 
 export type SubredditCreationPayload = z.infer<typeof SubredditCreationPayload>;
+
+
+export const SubredditSubscribeTogglePayload = z.object({
+    subredditId: z.string(),
+    subscribe: z.boolean(),
+});
+
+
+export type SubredditSubscribeTogglePayload = z.infer<typeof SubredditSubscribeTogglePayload>;

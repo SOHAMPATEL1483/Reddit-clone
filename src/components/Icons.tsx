@@ -1,6 +1,32 @@
+import { Session } from "next-auth";
+import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
+import { AvatarProps } from "@radix-ui/react-avatar";
+
 type IconProps = React.HTMLAttributes<SVGElement>;
 
+type UserProps = AvatarProps & {
+  session: Session;
+};
 export const Icons = {
+  user: ({ session, ...props }: UserProps) => {
+    {
+      if (session?.user?.image)
+        return (
+          <Avatar {...props}>
+            <AvatarImage src={session?.user?.image} />
+            <AvatarFallback>
+              {session.user.name?.substring(0, 2)}
+            </AvatarFallback>
+          </Avatar>
+        );
+      else
+        return (
+          <Avatar {...props}>
+            <AvatarFallback>UN</AvatarFallback>
+          </Avatar>
+        );
+    }
+  },
   google: (props: IconProps) => (
     <svg role="img" viewBox="0 0 24 24" {...props}>
       <path

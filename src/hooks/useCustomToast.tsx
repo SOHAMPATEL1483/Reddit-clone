@@ -9,7 +9,7 @@ export const useCustomToast = () => {
       description: "you must be logged in to create subreddit",
       action: (
         <Link
-          href="signin"
+          href="/signin"
           onClick={() => dismiss()}
           className={buttonVariants({
             variant: "default",

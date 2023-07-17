@@ -9,8 +9,8 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
-import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import SignoutButton from "./SignoutButton";
+import { Icons } from "./Icons";
 
 interface UserAcoNavProps {}
 
@@ -20,18 +20,7 @@ export default async function UserAcoNav({}: UserAcoNavProps) {
     return (
       <DropdownMenu>
         <DropdownMenuTrigger>
-          {session?.user?.image ? (
-            <Avatar>
-              <AvatarImage src={session?.user?.image} />
-              <AvatarFallback>
-                {session.user.name?.substring(0, 2)}
-              </AvatarFallback>
-            </Avatar>
-          ) : (
-            <Avatar>
-              <AvatarFallback>UN</AvatarFallback>
-            </Avatar>
-          )}
+          <Icons.user session={session} />
         </DropdownMenuTrigger>
         <DropdownMenuContent>
           <div className="my-1">
