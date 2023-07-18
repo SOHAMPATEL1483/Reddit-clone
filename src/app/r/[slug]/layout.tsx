@@ -43,7 +43,7 @@ export default async function Subredditlayout({
       <div className="relative top-20 grid w-full grid-cols-2 gap-x-4 px-2 md:grid-cols-3 md:px-0">
         <div className="col-span-2 ">{children}</div>
         {/* sidebar */}
-        <div className="mt-5 hidden w-full overflow-hidden rounded-lg bg-gray-100 md:block">
+        <div className="mt-5 hidden h-fit w-full overflow-hidden rounded-lg bg-gray-100 md:block">
           <p className="bg-gray-200 p-5  font-semibold">
             About r/{subreddit.name}
           </p>

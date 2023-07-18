@@ -1,5 +1,15 @@
-interface pageProps {}
+import Editor from "@/components/Editor";
 
-export default function page({}: pageProps) {
-  return <h1>submit page</h1>;
+interface pageProps {
+  params: {
+    slug: string;
+  };
+}
+
+export default function page({ params }: pageProps) {
+  return (
+    <>
+      <Editor subredditName={params.slug} />
+    </>
+  );
 }
