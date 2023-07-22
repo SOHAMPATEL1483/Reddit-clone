@@ -8,7 +8,7 @@ import { Subscription } from "@prisma/client";
 const schema = z.object({
     limit: z.number(),
     page: z.number(),
-    subredditName: z.string().optional(),
+    subredditName: z.string().optional().nullable(),
 })
 
 //limit , page , subredditname
@@ -44,7 +44,6 @@ export async function GET(request: Request)
                     name: subredditName,
                 }
             };
-
         }
         else
         {
@@ -63,9 +62,11 @@ export async function GET(request: Request)
                 Comment: true,
                 PostVote: true,
                 Subreddit: true,
+            },
+            orderBy: {
+                createdAt: "desc",
             }
         });
-        // console.log(posts);
         return new Response(JSON.stringify(posts), { status: 200 });
 
     }

@@ -15,24 +15,46 @@ export async function POST(request: Request)
         let request_body = await request.json();
         const { type, postid } = PostVoteCreationPayload.parse(request_body);
 
-        const vote = await db.postVote.upsert({
-            create: {
-                type: type,
-                postId: postid,
-                userId: session.user.id,
-            },
-            update: {
-                type: type,
-            },
+        const existing_vote = await db.postVote.findFirst({
             where: {
-                userId_postId: {
-                    postId: postid,
-                    userId: session.user.id,
-                }
+                userId: session.user.id,
+                postId: postid,
 
             }
         });
-        console.log(vote);
+
+        if (existing_vote?.type === type)
+        {
+            await db.postVote.delete({
+                where: {
+                    userId_postId: {
+                        userId: session.user.id,
+                        postId: postid,
+                    }
+                }
+            });
+        }
+        else
+        {
+            const vote = await db.postVote.upsert({
+                create: {
+                    type: type,
+                    postId: postid,
+                    userId: session.user.id,
+                },
+                update: {
+                    type: type,
+                },
+                where: {
+                    userId_postId: {
+                        postId: postid,
+                        userId: session.user.id,
+                    }
+
+                }
+            });
+            console.log(vote);
+        }
         return new Response("successfully voted the post", { status: 200 });
     } catch (error)
     {
