@@ -3,6 +3,8 @@ import { Input } from "@/components/ui/input";
 import { getServerSession } from "next-auth";
 import { Image, Link as LinkImage } from "lucide-react";
 import Link from "next/link";
+import PostFeed from "@/components/PostFeed";
+import db from "@/lib/prisma";
 
 interface SubredditPageProps {
   params: {
@@ -12,6 +14,7 @@ interface SubredditPageProps {
 
 export default async function SubredditPage({ params }: SubredditPageProps) {
   const session = await getServerSession();
+
   return (
     <>
       <div className="px-4 py-10">
@@ -33,6 +36,7 @@ export default async function SubredditPage({ params }: SubredditPageProps) {
           <LinkImage className="my-auto h-7 w-7" />
         </div>
       </Link>
+      <PostFeed subredditName={params.slug} />
     </>
   );
 }

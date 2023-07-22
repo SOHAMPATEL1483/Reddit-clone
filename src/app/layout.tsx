@@ -16,7 +16,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className="bg-gray-50 font-poppins text-zinc-900">
+      <body className="bg-gray-700 font-poppins text-zinc-900">
         <Providers>
           <Navbar />
           <Toaster />

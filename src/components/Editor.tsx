@@ -8,9 +8,18 @@ import type EditorConfig from "@editorjs/editorjs";
 import { useMutation } from "@tanstack/react-query";
 import { useToast } from "./ui/use-toast";
 import { uploadFiles } from "@/lib/uploadthing";
+import { type OutputData } from "@editorjs/editorjs";
+import { PostCreationPayload } from "@/validators/post";
+import axios, { AxiosError } from "axios";
+import { useCustomToast } from "@/hooks/useCustomToast";
+import { useRouter } from "next/navigation";
 
 interface EditorProps {
   subredditName: string;
+}
+interface CreatePostProps {
+  editorData: OutputData;
+  title: string;
 }
 
 export default function Editor({ subredditName }: EditorProps) {
@@ -18,9 +27,50 @@ export default function Editor({ subredditName }: EditorProps) {
   const titleRef = useRef<any>();
 
   const { toast } = useToast();
+  const { logintoast } = useCustomToast();
+  const router = useRouter();
 
-  const { mutate } = useMutation({
-    mutationFn: async () => {},
+  const { mutate: CreatePost, isLoading } = useMutation({
+    mutationFn: async ({ editorData, title }: CreatePostProps) => {
+      const payload: PostCreationPayload = {
+        title: title,
+        body: editorData,
+        subredditName: subredditName,
+      };
+      const { data } = await axios.post("/api/post/create", payload);
+      return data;
+    },
+    onError: (error) => {
+      if (error instanceof AxiosError) {
+        if (error.response?.status === 401) {
+          return logintoast();
+        }
+        if (error.response?.status === 409) {
+          return toast({
+            title: "Subreddit doesn't exist",
+            description:
+              "You can't create post in subreddit that doesn't exist",
+            variant: "destructive",
+          });
+        }
+        if (error.response?.status === 422) {
+          return toast({
+            title: "Invalid Post title or body",
+            variant: "destructive",
+          });
+        }
+      }
+      return toast({
+        title: "couldn't submit post",
+        description: "please try again after some time",
+      });
+    },
+    onSuccess: (data) => {
+      toast({
+        title: "successfully created post",
+      });
+      router.push(`post/${data}`);
+    },
   });
 
   const HandleClick = async () => {
@@ -37,15 +87,23 @@ export default function Editor({ subredditName }: EditorProps) {
         variant: "destructive",
       });
     }
+    CreatePost({ editorData, title });
   };
+
   const initializeEditor = useCallback(async () => {
     const EditorJS = (await import("@editorjs/editorjs")).default;
     const Header = (await import("@editorjs/header")).default;
+    //@ts-ignore
     const Embed = (await import("@editorjs/embed")).default;
+    //@ts-ignore
     const List = (await import("@editorjs/list")).default;
+    //@ts-ignore
     const Table = (await import("@editorjs/table")).default;
+    //@ts-ignore
     const Code = (await import("@editorjs/code")).default;
+    //@ts-ignore
     const InlineCode = (await import("@editorjs/inline-code")).default;
+    //@ts-ignore
     const ImageTool = (await import("@editorjs/image")).default;
 
     const editor = new EditorJS({
@@ -94,7 +152,7 @@ export default function Editor({ subredditName }: EditorProps) {
 
   return (
     <>
-      <div className="flex flex-col gap-3">
+      <div className="flex flex-col gap-3 overflow-hidden p-2">
         <p className="text-xl text-gray-500">
           Create Post at
           <span className="text-gray-800"> r/{subredditName}</span>
@@ -106,7 +164,9 @@ export default function Editor({ subredditName }: EditorProps) {
         />
         <div id="editorjs" className="rounded-lg border bg-gray-100 p-2" />
         {/* click will trigger HandleClick , we validate data in handle click that then submit data to endpoint via react query */}
-        <Button onClick={HandleClick}>Create Post</Button>
+        <Button onClick={HandleClick} isLoading={isLoading}>
+          Create Post
+        </Button>
       </div>
     </>
   );
