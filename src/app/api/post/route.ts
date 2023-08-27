@@ -5,13 +5,15 @@ import db from "@/lib/prisma";
 import { Subscription } from "@prisma/client";
 
 
+export const dynamic = "force-dynamic";
+
+
 const schema = z.object({
     limit: z.number(),
     page: z.number(),
     subredditName: z.string().optional().nullable(),
 })
 
-//limit , page , subredditname
 export async function GET(request: Request)
 {
     try

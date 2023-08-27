@@ -4,6 +4,7 @@ import { FC } from "react";
 import { Icons } from "./Icons";
 
 import UserAcoNav from "./UserAcoNav";
+import SearchBar from "./SearchBar";
 
 interface navbarProps {}
 
@@ -17,6 +18,8 @@ const Navbar: FC<navbarProps> = async ({}) => {
             Reddit
           </p>
         </Link>
+
+        <SearchBar />
         <UserAcoNav />
       </div>
     </div>

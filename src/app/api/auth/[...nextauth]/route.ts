@@ -28,6 +28,7 @@ export const authOptions: AuthOptions = {
     callbacks: {
         async session({ token, session })
         {
+            console.log("bankai");
             if (token)
             {
                 session.user.id = token.sub!;

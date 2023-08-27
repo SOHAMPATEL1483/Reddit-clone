@@ -26,6 +26,7 @@ const Post = ({ post, inref }: PostProps) => {
     post.PostVote.filter((vote) => vote.type === "DOWN").length;
   return (
     <div
+      key={post.id}
       ref={inref ? inref : null}
       className="my-2 flex gap-2 rounded-xl  bg-gray-200 p-3"
     >
@@ -47,7 +48,7 @@ const Post = ({ post, inref }: PostProps) => {
               {formatTimeToNow(new Date(post?.createdAt))}
             </p>
           </div>
-          <h1>{post?.title}</h1>
+          <h1 className="text-lg font-semibold">{post?.title}</h1>
           <EditorViewer data={post?.body} />
           <div className="flex gap-2 align-middle text-muted-foreground">
             <MessageSquare className="my-auto h-4 w-4" />

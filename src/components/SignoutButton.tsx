@@ -11,7 +11,7 @@ export default function SignoutButton({}: signoutProps) {
     });
   };
   return (
-    <button className="text-red-500" onClick={signout}>
+    <button className="h-full w-full text-left text-red-500" onClick={signout}>
       Sign Out
     </button>
   );

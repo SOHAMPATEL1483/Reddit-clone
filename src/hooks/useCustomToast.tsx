@@ -6,7 +6,7 @@ export const useCustomToast = () => {
   const logintoast = () => {
     const { dismiss } = toast({
       title: "Login Error",
-      description: "you must be logged in to create subreddit",
+      description: "you must be logged in to further proceed",
       action: (
         <Link
           href="/signin"

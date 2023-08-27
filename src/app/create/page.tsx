@@ -51,6 +51,7 @@ export default function CreateSubreddit({}: CreateSubredditProps) {
       return toast({
         title: "couldn't create subreddit",
         description: "please try again after some time",
+        variant: "destructive",
       });
     },
     onSuccess: (data) => {},

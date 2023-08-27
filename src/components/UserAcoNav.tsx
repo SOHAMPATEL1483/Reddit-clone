@@ -30,8 +30,16 @@ export default async function UserAcoNav({}: UserAcoNavProps) {
             </p>
           </div>
           <DropdownMenuSeparator />
-          <DropdownMenuItem className="font-poppins">Feed</DropdownMenuItem>
-          <DropdownMenuItem>Create Community</DropdownMenuItem>
+          <DropdownMenuItem className="font-poppins">
+            <Link className="h-full w-full" href="/">
+              Feed
+            </Link>
+          </DropdownMenuItem>
+          <DropdownMenuItem>
+            <Link className="h-full w-full" href="/create">
+              Create Community
+            </Link>
+          </DropdownMenuItem>
           <DropdownMenuItem>Settings</DropdownMenuItem>
           <DropdownMenuSeparator />
           <DropdownMenuItem>
